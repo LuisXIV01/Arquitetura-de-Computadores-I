@@ -42,4 +42,4 @@ mov eax,4		; serviço print
 int 80h
 
 fim: mov eax,1		; serviço EXIT
-int 80h			; system call
+int 80h						; system call
