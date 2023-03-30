@@ -1,4 +1,4 @@
-section .data			; dados inicializados
+section .data		; dados inicializados
 mens db "Digite uma String",10
 tam equ $ - mens
 
@@ -8,14 +8,14 @@ qde resd 1
 buffer2 resb 50
 
 segment .text
-global _start			; ld vai requerer
+global _start		; ld vai requerer
 
-_start:					; ponto de entrada
+_start:			; ponto de entrada
 
 mov edx,tam		; quantidade de bytes
 mov ecx,mens		; ponteiro da string
-mov ebx,1			; tela (FD)
-mov eax,4			; serviço print
+mov ebx,1		; tela (FD)
+mov eax,4		; serviço print
 int 80h
 	 
 mov eax, 3 ;read
@@ -37,9 +37,9 @@ jmp iniloop ;salta pra iniloop
 sai:
 mov edx,esi		; quantidade de bytes
 mov ecx,buffer2		; ponteiro da string
-mov ebx,1			; tela (FD)
-mov eax,4			; serviço print
+mov ebx,1		; tela (FD)
+mov eax,4		; serviço print
 int 80h
 
-fim: mov eax,1			; serviço EXIT
-	 int 80h			; system call
+fim: mov eax,1		; serviço EXIT
+int 80h			; system call
