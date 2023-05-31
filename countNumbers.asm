@@ -54,8 +54,8 @@ read:
 	jmp loopCheck ; senão sai
 	
 	loopCheck:
-		cmp esi,[qde] ; compara esi com o size qde
-		je exit ; se esi for igual ao size qde
+		cmp byte [buffer + esi],10 ; compara o byte com 10
+		je exit ; se for igual sai
 		cmp byte [buffer + esi], '0' ; 0 em ascii é 48
 		jl notNumber ; é menor que 48, logo não é número
 		cmp byte [buffer + esi], '9' ; 9 em ascii é 57
