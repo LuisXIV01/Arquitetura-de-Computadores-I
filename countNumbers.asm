@@ -20,8 +20,16 @@ section .text
 global _start
 
 _start:
+	mov edx,sizeInput ; imprime inputMens
+	mov ecx,inputMens
+	call print
 
+	mov ecx, buffer
+	mov edx, 10
 	call read
+	mov[qde], eax
+	
+	call check
 	
 ;~ readNumber2:
 
@@ -35,39 +43,47 @@ print:
 	ret
 
 read:
-	readNumber:
-		mov edx,sizeInput ; imprime inputMens
-		mov ecx,inputMens
-		call print
-		
-		mov ecx, buffer
-		mov edx, 10
-		int 80h
-		mov eax,3
-		mov ebx,0
-		int 80h
-		mov[qde], eax
-	
+	mov eax,3
+	mov ebx,0
+	int 80h
+	ret
+
+check:
 	; Verificações
 	cmp byte[qde],1 ; compara pra ver se qde é igual a 1
 	je readNumber ; se for igual repete
 	jmp loopCheck ; senão sai
 	
 	loopCheck:
-		cmp byte [buffer + esi],10 ; compara o byte com 10
+		mov al, [buffer + esi]
+		cmp al,10 ; compara o byte com 10
 		je exit ; se for igual sai
-		cmp byte [buffer + esi], '0' ; 0 em ascii é 48
+		cmp al, '0' ; 0 em ascii é 48
 		jl notNumber ; é menor que 48, logo não é número
-		cmp byte [buffer + esi], '9' ; 9 em ascii é 57
+		cmp al, '9' ; 9 em ascii é 57
 		jg notNumber ; é maior que 57, logo não é número
+		sub al,48
+		mov [buffer + esi], al
 		inc esi ; incrementa esi
 		jmp loopCheck ; senão continua no loop
+	
 		
-	notNumber:
+notNumber:
 	mov edx,sizeError ; imprime errorMens
 	mov ecx,errorMens
 	call print
-	jmp readNumber
 	
+readNumber:
+	mov edx,sizeInput ; imprime inputMens
+	mov ecx,inputMens
+	call print
+	mov ecx, buffer
+	mov edx, 10
+	call read
+	mov[qde], eax
+	call check
 exit:
 	ret
+
+convert2num:
+	
